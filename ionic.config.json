@@ -1,0 +1,7 @@
+{
+  "name": "MobileAppGroupAssignment",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
