@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding"><main class="auth-shell">
+  <p class="eyebrow">MEMBER CLUB · COUNTER READY</p>
+  <h1>Rewards, ready when you are.</h1>
+  <p>Sign in to show your member QR, earn stamps, and redeem rewards at the counter.</p>
+
+  <ion-segment [(ngModel)]="loginMethod" class="ion-margin-bottom">
+    <ion-segment-button value="phone"><ion-label>Phone OTP</ion-label></ion-segment-button>
+    <ion-segment-button value="email"><ion-label>Email</ion-label></ion-segment-button>
+  </ion-segment>
+
+  <section class="auth-panel" *ngIf="loginMethod === 'phone'">
+  <ion-item>
+    <ion-input 
+      label="Phone Number" 
+      labelPlacement="stacked" 
+      placeholder="e.g. +60123456789" 
+      type="tel"
+      [(ngModel)]="phoneNumber">
+    </ion-input>
+  </ion-item>
+
+  <ion-button expand="block" (click)="onRequestOtp()">
+    Request OTP
+  </ion-button>
+  </section>
+
+  <section class="auth-panel" *ngIf="loginMethod === 'email'">
+    <ion-item><ion-input label="Email" labelPlacement="stacked" type="email" autocomplete="email" [(ngModel)]="email"></ion-input></ion-item>
+    <ion-item class="ion-margin-top"><ion-input label="Password" labelPlacement="stacked" type="password" autocomplete="current-password" [(ngModel)]="password"></ion-input></ion-item>
+    <ion-button expand="block" class="ion-margin-top" (click)="onEmailLogin()">Sign in</ion-button>
+    <ion-button expand="block" fill="clear" routerLink="/forgot-password">Forgot password?</ion-button>
+  </section>
+</main></ion-content>

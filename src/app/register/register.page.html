@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Create Account</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="ion-margin-bottom">
+    <h2>Join Us</h2>
+    <p>Create your member account. Your phone number will be verified before we save it.</p>
+  </div>
+
+  <ion-item><ion-input label="Full name" labelPlacement="stacked" [(ngModel)]="name"></ion-input></ion-item>
+  <ion-item class="ion-margin-top"><ion-input label="Email" labelPlacement="stacked" type="email" [(ngModel)]="email"></ion-input></ion-item>
+
+  <ion-item>
+    <ion-input 
+      label="Phone Number" 
+      labelPlacement="stacked" 
+      placeholder="e.g. +60123456789" 
+      type="tel"
+      [(ngModel)]="phoneNumber">
+    </ion-input>
+  </ion-item>
+
+  <ion-item class="ion-margin-top">
+    <ion-input 
+      label="Referral Code (Optional)" 
+      labelPlacement="stacked" 
+      placeholder="e.g. REF123" 
+      type="text"
+      [(ngModel)]="referralCode">
+    </ion-input>
+  </ion-item>
+
+  <ion-item class="ion-margin-top"><ion-input label="Password" labelPlacement="stacked" type="password" [(ngModel)]="password"></ion-input></ion-item>
+  <ion-item class="ion-margin-top"><ion-input label="Birthday (optional)" labelPlacement="stacked" type="date" [(ngModel)]="birthday"></ion-input></ion-item>
+
+  <ion-button expand="block" class="ion-margin-top" (click)="onRegister()">
+    Continue & Send Code
+  </ion-button>
+</ion-content>

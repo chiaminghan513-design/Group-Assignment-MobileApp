@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/login"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Verify Code</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding"><main class="auth-shell">
+  <p class="eyebrow">SECURE MEMBER SIGN-IN</p>
+  <h1>Verify your code</h1>
+  <p>Use the six-digit code for <strong>{{ phoneNumber }}</strong>.</p>
+  <div class="otp-code-card" *ngIf="otpHint"><span>YOUR VERIFICATION CODE</span><strong>{{ otpHint }}</strong><small>For this demo, the API displays the code here.</small></div>
+
+  <section class="auth-panel code-entry"><ion-item>
+    <ion-input 
+      label="6-Digit Code" 
+      labelPlacement="stacked" 
+      placeholder="123456" 
+      maxlength="6"
+      type="text"
+      inputmode="numeric"
+      pattern="[0-9]*"
+      [(ngModel)]="otpCode">
+    </ion-input>
+  </ion-item>
+
+  <ion-button expand="block" (click)="onVerifyCode()">
+    Verify & Continue
+  </ion-button>
+  </section></main></ion-content>

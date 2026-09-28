@@ -34,4 +34,56 @@
 
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import "@ionic/angular/css/palettes/dark.system.css";
+ion-content { --background: radial-gradient(circle at 90% -10%, #303c2a 0, #141615 38%, #101211 100%); }
+ion-toolbar { --background: #141615; --color: #f8f4eb; --border-color: #2a302b; }
+ion-footer ion-toolbar { --background: #1c201e; }
+ion-card { --background: #202421; --color: #f8f4eb; box-shadow: 0 14px 30px rgba(0,0,0,.18); border: 1px solid #303631; border-radius: 18px; overflow: hidden; }
+ion-card::before { content: ''; display: block; height: 3px; background: linear-gradient(90deg, #c2fc50, transparent 70%); opacity: .75; }
+ion-button { font-weight: 800; text-transform: none; letter-spacing: -.1px; }
+ion-button[color="primary"] { --box-shadow: 0 8px 20px rgba(194,252,80,.16); }
+ion-item { --background: linear-gradient(135deg, #232824, #1c201e); --color: #f8f4eb; --border-color: #343a34; --highlight-color-focused: #c2fc50; border-radius: 12px; margin: 8px 0; }
+ion-list { background: transparent !important; }
+ion-segment { --background: #202421; border: 1px solid #343a34; border-radius: 12px; }
+ion-segment-button { --color: #b8c0b7; --color-checked: #c2fc50; --indicator-color: transparent; min-height: 40px; }
+ion-back-button { --color: #f8f4eb; }
+ion-title, h1, h2, h3, p, ion-label { color: #f8f4eb; }
+ion-note, ion-card-subtitle, .intro { color: #aab3a8 !important; }
+
+.auth-shell { max-width: 430px; margin: 0 auto; padding: 12px 4px 32px; }
+.eyebrow { color: #c2fc50 !important; font-size: 10px; font-weight: 900; letter-spacing: 1.2px; margin: 8px 0; }
+.auth-shell h1 { font-size: 31px; letter-spacing: -1.25px; margin: 4px 0 10px; }
+.auth-shell > p { color: #aab3a8; line-height: 1.5; margin-bottom: 26px; }
+.auth-panel { background: #202421; border: 1px solid #343a34; border-radius: 20px; padding: 14px; }
+.auth-panel ion-button { margin: 14px 0 4px; --border-radius: 12px; height: 48px; }
+.otp-code-card { margin: 20px 0; padding: 17px; border-radius: 16px; background: #c2fc50; color: #141615; text-align: center; }
+.otp-code-card span, .otp-code-card small, .otp-code-card strong { display: block; color: #141615; }
+.otp-code-card span { font-size: 10px; font-weight: 900; letter-spacing: 1px; }
+.otp-code-card strong { font-size: 34px; letter-spacing: 6px; line-height: 1.25; margin: 4px 0; }
+.otp-code-card small { font-size: 10px; opacity: .75; }
+.code-entry ion-item { --padding-top: 8px; --padding-bottom: 8px; --min-height: 84px; }
+.code-entry ion-input { --color: #f8f4eb; font-size: 26px; font-weight: 900; letter-spacing: 7px; text-align: center; padding-top: 6px; }
+
+/* Counter-ready dashboard overrides */
+.stamp-card, .points-card, .wallet-row, .reward-strip, .wallet-balance { background: #202421 !important; color: #f8f4eb !important; border: 1px solid #343a34; }
+.greeting p, .points-card p, .stamp-card p, .greeting span, .wallet-row p, .reward-strip p { color: #aab3a8 !important; }
+.greeting h1, .card-heading h2, .points-card h2, .section-title h2, .stamp-card strong { color: #f8f4eb !important; }
+.stamp-dots div { border-color: #5b645a !important; color: #5b645a !important; }
+.stamp-dots .earned { background: #c2fc50 !important; border-color: #c2fc50 !important; color: #141615 !important; }
+.points-card .ring { border-color: #343a34 !important; border-top-color: #c2fc50 !important; border-left-color: #c2fc50 !important; color: #c2fc50 !important; }
+.round-icon, .reward-mark { background: #2d352a !important; color: #c2fc50 !important; }
+.show-qr { --background: #c2fc50; --color: #141615; }
+.bottom-nav a { color: #aab3a8 !important; }.bottom-nav .active { color: #c2fc50 !important; }
+
+/* Secondary screens: add the same premium counter-ready character. */
+.mint { border-left: 4px solid #5ce1b8 !important; }.lavender { border-left: 4px solid #a990ff !important; }.peach { border-left: 4px solid #ffad72 !important; }
+.reward-links ion-button { --border-color: #4a5547; --color: #c2fc50; }
+.stamp-hero { background: linear-gradient(135deg, #263220, #1b201b); border: 1px solid #3f5137; border-radius: 20px; padding: 24px 16px !important; margin: 4px 0 18px; }
+.stamp-hero ion-icon { color: #c2fc50 !important; filter: drop-shadow(0 0 12px rgba(194,252,80,.28)); }
+.stamp-hero p { color: #b5beb1 !important; }
+.stamp-grid div { background: #252a26 !important; color: #687165 !important; border: 1px dashed #4a5447; }
+.stamp-grid div.filled { background: #c2fc50 !important; color: #141615 !important; border: 1px solid #c2fc50; box-shadow: 0 7px 15px rgba(194,252,80,.18); }
+.profile-summary { background: linear-gradient(135deg, #263220, #1c211d); border-bottom: 1px solid #344130; }
+.profile-summary ion-avatar div { background: #c2fc50 !important; color: #141615 !important; box-shadow: 0 8px 20px rgba(194,252,80,.18); }
+.profile-summary p { color: #c2fc50 !important; font-weight: 800; letter-spacing: .3px; }
+.referral { padding: 8px 0; }.referral strong { color: #c2fc50; }
+.bottom-nav .active { background: #2b3527; border-radius: 13px; padding: 4px 9px; }
