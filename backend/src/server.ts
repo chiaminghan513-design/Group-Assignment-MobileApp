@@ -121,13 +121,18 @@ app.get('/members/:phoneNumber/dashboard', requireSession, async (req, res, next
     const { phoneNumber } = req.params;
     const session = res.locals.session as MemberSession;
     if (session.phoneNumber && session.phoneNumber !== phoneNumber) return res.status(403).json({ message: 'You can only access your own member dashboard.' });
-    const [member, wallet, stamps, rewards] = await Promise.all([
-      xcode.post('MemberDetails/GetMemberDetails', { PhoneNumber: phoneNumber }),
+    const [member, wallet, stamps, rewards, vouchers, history, outlets, notifications, redeemedRewards] = await Promise.all([
+      xcode.post('MemberAccount/GetMemberDetails', { PhoneNumber: phoneNumber }),
       xcode.post('MemberWallet/MemberGetWalletDetails', { PhoneNumber: phoneNumber }),
       xcode.post('MemberAccount/GetMemberStampList', { PhoneNumber: phoneNumber }),
-      xcode.get('MemberReward/GetRewards')
+      xcode.get('MemberReward/GetRewards'),
+      xcode.post('MemberVoucher/GetVoucherByPhone', { PhoneNumber: phoneNumber }),
+      xcode.post('History/GetAllRecordByPhoneNumber', { PhoneNumber: phoneNumber }),
+      xcode.get('ManageOutlets/GetAllOutlets'),
+      xcode.post('MemberNotification/GetNotificationsFilterMember', { PhoneNumber: phoneNumber }),
+      xcode.post('MemberAccount/GetMemberReward', { PhoneNumber: phoneNumber })
     ]);
-    res.json({ member, wallet, stamps, rewards });
+    res.json({ member, wallet, stamps, rewards, vouchers, history, outlets, notifications, redeemedRewards });
   } catch (error) { next(error); }
 });
 

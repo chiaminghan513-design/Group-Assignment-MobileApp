@@ -20,7 +20,7 @@ export class MemberFeaturePage implements OnInit {
   title = '';
   contactValue = '';
   feedback = '';
-  profile = { name: '', email: '', phone: '+60 12 345 6789' };
+  profile = { name: '', email: '', phone: '' };
   readonly qrRows = ['101011001', '010101110', '111010101', '001111001', '110010111', '011101010', '100011101', '010110011', '111001010'];
 
   constructor(private route: ActivatedRoute, public loyalty: LoyaltyDataService, private alerts: AlertController, private auth: AuthService) {}
@@ -29,6 +29,7 @@ export class MemberFeaturePage implements OnInit {
     this.feature = (this.route.snapshot.data['feature'] || 'qr') as Feature;
     this.title = ({ qr: 'Member QR', 'my-rewards': 'My rewards', vouchers: 'My vouchers', notifications: 'Notifications', stores: 'Stores', feedback: 'Feedback', 'forgot-password': 'Reset password', 'edit-profile': 'Edit profile', addresses: 'Delivery addresses', ordering: 'Order ahead' })[this.feature];
     this.profile.name = this.loyalty.member.name;
+    this.profile.phone = this.loyalty.member.phoneNumber;
   }
 
   async confirm(message: string) {

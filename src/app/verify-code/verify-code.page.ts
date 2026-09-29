@@ -83,8 +83,7 @@ export class VerifyCodePage implements OnInit {
       next: (details) => {
         console.log('Member details loaded:', details);
         // Save details locally if needed, then navigate to dashboard
-        localStorage.setItem('member_profile', JSON.stringify(details));
-        this.loyalty.applyMember(details);
+        this.loyalty.applyDashboard(details);
         this.router.navigate(['/dashboard']);
       },
       error: (err) => {
