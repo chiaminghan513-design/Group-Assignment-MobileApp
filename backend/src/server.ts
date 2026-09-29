@@ -34,6 +34,13 @@ function hasMemberRecord(value: unknown): boolean {
   return Boolean(record.PhoneNumber || record.phoneNumber || record.Email || record.email || record.Id || record.id);
 }
 
+function withoutPassword(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(withoutPassword);
+  if (!value || typeof value !== 'object') return value;
+  const { Password: _password, password: _passwordLower, ...safeValue } = value as Record<string, unknown>;
+  return safeValue;
+}
+
 app.get('/health', (_req, res) => res.json({ status: 'ok' }));
 
 app.post('/auth/request-otp', async (req, res, next) => {
@@ -68,7 +75,7 @@ app.post('/auth/login/phone', async (req, res, next) => {
       await xcode.post('MemberLogin/UpdateDeviceId', { PhoneNumber: phoneNumber, DeviceId: deviceId });
     }
     const member = await xcode.post('MemberLogin/MemberMobileLoginGetProfile', { Phone: phoneNumber, OTP: otp, FirstLogin: isFirstLogin, DeviceId: deviceId, AccountStatus: accountStatus });
-    res.json({ member, sessionToken: issueMemberSession({ phoneNumber }) });
+    res.json({ member: withoutPassword(member), sessionToken: issueMemberSession({ phoneNumber }) });
   } catch (error) { next(error); }
 });
 
@@ -78,7 +85,7 @@ app.post('/auth/login/email', async (req, res, next) => {
     if (!validEmail(email) || typeof password !== 'string' || !password) return res.status(400).json({ message: 'Enter a valid email and password.' });
     if (config.useMockXcode) return res.json({ member: { Email: email, Name: 'Demo Member' }, sessionToken: issueMemberSession({ email }) });
     const member = await xcode.post('MemberLogin/CheckEmailPassword', { Email: email, Password: password });
-    res.json({ member, sessionToken: issueMemberSession({ email }) });
+    res.json({ member: withoutPassword(member), sessionToken: issueMemberSession({ email }) });
   } catch (error) { next(error); }
 });
 
@@ -90,7 +97,7 @@ app.post('/auth/register', async (req, res, next) => {
     }
     if (config.useMockXcode) return res.status(201).json({ member: { Name: name, Email: email, PhoneNumber: phoneNumber }, sessionToken: issueMemberSession({ phoneNumber, email }) });
     const member = await xcode.post('MemberLogin/RegisterMember', { Name: name, Email: email, PhoneNumber: phoneNumber, ReferralBy: referralBy, Password: password, Birthday: birthday, EmailSubcribe: 'true', Image: '', ImageByte: '' });
-    res.status(201).json({ member, sessionToken: issueMemberSession({ phoneNumber, email }) });
+    res.status(201).json({ member: withoutPassword(member), sessionToken: issueMemberSession({ phoneNumber, email }) });
   } catch (error) { next(error); }
 });
 
@@ -132,7 +139,7 @@ app.get('/members/:phoneNumber/dashboard', requireSession, async (req, res, next
       xcode.post('MemberNotification/GetNotificationsFilterMember', { PhoneNumber: phoneNumber }),
       xcode.post('MemberAccount/GetMemberReward', { PhoneNumber: phoneNumber })
     ]);
-    res.json({ member, wallet, stamps, rewards, vouchers, history, outlets, notifications, redeemedRewards });
+    res.json({ member: withoutPassword(member), wallet, stamps, rewards, vouchers, history, outlets, notifications, redeemedRewards });
   } catch (error) { next(error); }
 });
 
