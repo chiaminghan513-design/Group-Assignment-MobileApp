@@ -1,23 +1,19 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import { environment } from '../../environments/environment';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class ApiService {
   private baseUrl = environment.apiBaseUrl;
 
-  constructor(private http: HttpClient) {}
+  checkVersion(): Observable<any> { return this.get('/health'); }
+  keepLoginUser(): Observable<any> { return this.get('/health'); }
 
-  // 1. Check version on launch
-  checkVersion(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/health`);
-  }
-
-  // 2. Check if user session is preserved (Mobile specific)
-  keepLoginUser(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/health`);
+  private get(path: string): Observable<any> {
+    return from(fetch(`${this.baseUrl}${path}`).then(async response => {
+      const payload = await response.json().catch(() => null);
+      if (!response.ok) throw { status: response.status, statusText: response.statusText, error: payload };
+      return payload;
+    }));
   }
 }
