@@ -4,7 +4,8 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
+    redirectTo: 'choice',
+    pathMatch: 'full'
   },
   {
     path: '',
@@ -17,7 +18,8 @@ const routes: Routes = [
   },
   {
     path: 'otp',
-    loadChildren: () => import('./otp/otp.module').then( m => m.OTPPageModule)
+    redirectTo: 'login',
+    pathMatch: 'full'
   },
   {
     path: 'choice',
@@ -72,6 +74,12 @@ const routes: Routes = [
     path: 'notifications', data: { feature: 'notifications' }, loadComponent: () => import('./member-feature/member-feature.page').then(m => m.MemberFeaturePage)
   },
   {
+    path: 'notification-details', data: { feature: 'notification-details' }, loadComponent: () => import('./member-feature/member-feature.page').then(m => m.MemberFeaturePage)
+  },
+  {
+    path: 'reward-details', data: { feature: 'reward-details' }, loadComponent: () => import('./member-feature/member-feature.page').then(m => m.MemberFeaturePage)
+  },
+  {
     path: 'stores', data: { feature: 'stores' }, loadComponent: () => import('./member-feature/member-feature.page').then(m => m.MemberFeaturePage)
   },
   {
@@ -82,6 +90,15 @@ const routes: Routes = [
   },
   {
     path: 'edit-profile', data: { feature: 'edit-profile' }, loadComponent: () => import('./member-feature/member-feature.page').then(m => m.MemberFeaturePage)
+  },
+  {
+    path: 'referrals', data: { feature: 'referrals' }, loadComponent: () => import('./member-feature/member-feature.page').then(m => m.MemberFeaturePage)
+  },
+  {
+    path: 'verify-email', data: { feature: 'verify-email' }, loadComponent: () => import('./member-feature/member-feature.page').then(m => m.MemberFeaturePage)
+  },
+  {
+    path: 'deactivate-account', data: { feature: 'deactivate-account' }, loadComponent: () => import('./member-feature/member-feature.page').then(m => m.MemberFeaturePage)
   },
   {
     path: 'addresses', data: { feature: 'addresses' }, loadComponent: () => import('./member-feature/member-feature.page').then(m => m.MemberFeaturePage)

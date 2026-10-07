@@ -67,7 +67,7 @@ export class RegisterPage {
         console.log('Signup OTP requested:', res);
 
         const toast = await this.toastController.create({
-          message: res?.OTP ? `Verification code: ${res.OTP}` : (res?.developmentOtp ? `Development OTP: ${res.developmentOtp}` : 'A verification code has been sent to your phone number.'),
+          message: res?.OTP ? `Verification code: ${res.OTP}` : 'A verification code has been sent to your phone number.',
           duration: 5000,
           position: 'top',
           color: 'dark'
@@ -84,7 +84,7 @@ export class RegisterPage {
             password: this.password,
             birthday: this.birthday,
             mode: 'signup',
-            otpHint: res?.OTP || res?.developmentOtp || ''
+            otpHint: res?.OTP || ''
           } 
         });
       },

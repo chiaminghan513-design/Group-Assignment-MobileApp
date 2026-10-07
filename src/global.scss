@@ -87,3 +87,24 @@ ion-note, ion-card-subtitle, .intro { color: #aab3a8 !important; }
 .profile-summary p { color: #c2fc50 !important; font-weight: 800; letter-spacing: .3px; }
 .referral { padding: 8px 0; }.referral strong { color: #c2fc50; }
 .bottom-nav .active { background: #2b3527; border-radius: 13px; padding: 4px 9px; }
+
+/* Eduvo offer and voucher collection */
+.offers-intro { margin: 4px 2px 20px; }
+.offers-intro > span, .offer-label { color: #c2fc50; font-size: 9px; font-weight: 900; letter-spacing: 1.1px; }
+.offers-intro h1 { margin: 7px 0; font-size: 29px; letter-spacing: -1px; }
+.offers-intro p { margin: 0; color: #aab3a8; line-height: 1.45; }
+.offer-grid { display: grid; gap: 13px; }
+.offer-card { position: relative; display: grid; grid-template-columns: 46px 1fr; gap: 13px; padding: 17px; overflow: hidden; border: 1px solid #3b4638; border-radius: 20px; background: linear-gradient(145deg, #242a24, #1a1e1b); box-shadow: 0 12px 28px rgba(0,0,0,.2); }
+.offer-card::after { position: absolute; right: -28px; bottom: -35px; width: 105px; height: 105px; border: 1px solid rgba(194,252,80,.14); border-radius: 50%; content: ''; }
+.voucher-offer { border-color: #52683f; background: linear-gradient(145deg, #263320, #182019); }
+.offer-icon { display: grid; width: 46px; height: 46px; place-items: center; border-radius: 14px; background: #c2fc50; color: #141615; font-size: 23px; }
+.offer-copy { min-width: 0; }
+.offer-copy h2 { margin: 5px 0 6px; color: #f8f4eb; font-size: 18px; line-height: 1.2; }
+.offer-copy p { display: -webkit-box; margin: 0 0 9px; overflow: hidden; color: #aab3a8; font-size: 12px; line-height: 1.45; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
+.offer-copy small { color: #d7ddd4; font-size: 10px; }
+.offer-card ion-button { grid-column: 2; justify-self: start; margin: 3px 0 0; --color: #c2fc50; --padding-start: 0; --padding-end: 0; }
+.polished-empty { margin-top: 22px; padding: 30px 22px; border: 1px solid #394238; border-radius: 22px; background: linear-gradient(145deg, #222722, #191c1a); text-align: center; }
+.polished-empty > ion-icon { padding: 13px; border-radius: 15px; background: #2c3529; color: #c2fc50; font-size: 34px; }
+.polished-empty h2 { margin: 15px 0 7px; }
+.polished-empty p { color: #aab3a8; line-height: 1.5; }
+.polished-empty ion-button { margin-top: 8px; --border-radius: 12px; }

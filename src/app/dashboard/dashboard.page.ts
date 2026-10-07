@@ -9,7 +9,7 @@ import { AuthService } from '../services/auth';
   standalone: false,
 })
 export class DashboardPage implements OnInit {
-  readonly stampSlots = Array.from({ length: 10 });
+  get stampSlots() { return Array.from({ length: this.loyalty.member.stampsNeeded }); }
 
   loading = true;
 

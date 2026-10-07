@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { AuthService } from '../services/auth';
+import { LoyaltyDataService } from '../services/loyalty-data.service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,8 @@ export class LoginPage {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private loyalty: LoyaltyDataService
   ) {}
 
   onRequestOtp() {
@@ -28,7 +30,7 @@ export class LoginPage {
         console.log('Login OTP requested:', res);
 
         const toast = await this.toastController.create({
-          message: res?.OTP ? `Verification code: ${res.OTP}` : (res?.developmentOtp ? `Development OTP: ${res.developmentOtp}` : 'A verification code has been sent to your phone number.'),
+          message: res?.OTP ? `Verification code: ${res.OTP}` : 'A verification code has been sent to your phone number.',
           duration: 5000,
           position: 'top',
           color: 'dark'
@@ -42,7 +44,7 @@ export class LoginPage {
             mode: 'login',
             firstLogin: res?.FirstLogin ?? 'True',
             accountStatus: res?.AccountStatus ?? '',
-            otpHint: res?.OTP || res?.developmentOtp || ''
+            otpHint: res?.OTP || ''
           }
         });
       },
@@ -57,8 +59,15 @@ export class LoginPage {
     if (!this.email.trim() || !this.password) { return; }
     this.authService.loginWithEmail(this.email, this.password).subscribe({
       next: (res: any) => {
+        const member = Array.isArray(res?.member) ? res.member[0] : (res?.member || res);
+        const phoneNumber = member?.PhoneNumber || member?.phoneNumber || '';
+        if (!phoneNumber) {
+          this.showError({ error: { message: 'We found your account, but it is missing a phone number. Please ask an Eduvo team member for help.' } });
+          return;
+        }
         localStorage.setItem('auth_token', res.sessionToken || res.token || '');
-        if (res?.PhoneNumber) { localStorage.setItem('member_phone', res.PhoneNumber); }
+        localStorage.setItem('member_phone', phoneNumber);
+        this.loyalty.applyMember(member);
         this.router.navigateByUrl('/dashboard');
       },
       error: (err) => { console.error('Email sign-in failed', err); this.showError(err); }

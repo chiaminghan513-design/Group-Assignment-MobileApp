@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ApiService } from '../services/apiservice'; // Adjust path to your service
+import { AuthService } from '../services/auth';
 
 @Component({
   selector: 'app-loading',
@@ -10,21 +10,14 @@ import { ApiService } from '../services/apiservice'; // Adjust path to your serv
 })
 export class LoadingPage implements OnInit {
 
-  constructor(private router: Router, private apiService: ApiService) { }
+  constructor(private router: Router, private auth: AuthService) { }
 
   async ngOnInit() {
     try {
-      // A connected build should check ManageVersion/GetAllVersion here.
-      // Use the saved session while this project is running in mock-data mode.
-      const sessionActive = !!localStorage.getItem('auth_token');
-
-      if (sessionActive) {
-        // If logged in, go straight to the Dashboard (Home)
-        this.router.navigateByUrl('/dashboard', { replaceUrl: true });
-      } else {
-        // If not logged in, go to the Choice screen (Login/Register)
-        this.router.navigateByUrl('/choice', { replaceUrl: true });
-      }
+      this.auth.getVersions().subscribe({
+        next: versions => { sessionStorage.setItem('loyalty_app_versions', JSON.stringify(versions)); this.router.navigateByUrl('/choice', { replaceUrl: true }); },
+        error: () => this.router.navigateByUrl('/choice', { replaceUrl: true })
+      });
       
     } catch (error) {
       // Fallback if backend or API fails: route to choice screen

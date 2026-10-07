@@ -22,4 +22,4 @@ The backend starts at `http://localhost:3000`. Check it with `GET /health`.
 
 The Xcode authentication request body is intentionally environment-configured because the Swagger page does not document a safe set of test credentials.
 
-Until test credentials are supplied, the server automatically uses development mode. It returns OTP `654321` for phone login and `123456` for registration; no SMS is sent. Set `USE_MOCK_XCODE=false` and configure `XCODE_AUTH_PAYLOAD` to use the real API.
+Configure `XCODE_AUTH_PAYLOAD` with the real API credentials supplied through Swagger or your lecturer. The backend always calls the configured Xcode API; no mock OTP or demo-member mode is included.

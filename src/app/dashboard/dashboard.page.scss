@@ -1,1 +1,39 @@
-.dashboard-shell { max-width:480px; margin:0 auto; }.wordmark { font-size:18px; font-weight:900; letter-spacing:-.5px; }.greeting { margin:6px 2px 16px; }.greeting p, .points-card p, .stamp-card p { margin:0; font-size:10px; letter-spacing:1px; font-weight:800; color:#896d58; }.greeting h1 { margin:4px 0; font-size:30px; letter-spacing:-1px; color:#201711; }.greeting span { font-size:12px; color:#896d58; }.stamp-card { background:#fff; border-radius:22px; padding:18px; }.card-heading, .section-title, .points-card, .wallet-row, .reward-strip { display:flex; align-items:center; justify-content:space-between; }.card-heading h2 { margin:3px 0 0; font-size:25px; color:#201711; }.card-heading > span { font-size:12px; color:#896d58; }.stamp-dots { display:grid; grid-template-columns:repeat(5,1fr); gap:9px; margin:16px 0; }.stamp-dots div { aspect-ratio:1; border:1.5px dashed #d6ad98; color:#d6ad98; border-radius:50%; display:grid; place-items:center; }.stamp-dots .earned { background:#dd5d3b; border-color:#dd5d3b; color:white; }.stamp-card strong { font-size:12px; color:#201711; }.points-card { margin:12px 0; background:#fff; padding:14px 18px; border-radius:20px; justify-content:flex-start; gap:15px; }.points-card h2 { margin:4px 0; font-size:24px; color:#201711; }.points-card span { display:block; color:#896d58; font-size:11px; }.points-card ion-button { --padding-start:0; --padding-end:0; margin:4px 0 0; height:20px; font-size:11px; }.ring { width:58px; height:58px; border:6px solid #f4d1c5; border-top-color:#3f65df; border-left-color:#3f65df; border-radius:50%; display:grid; place-items:center; font-size:11px; color:#3f65df; }.wallet-row { background:#fff; border-radius:16px; padding:12px 14px; gap:10px; color:#201711; }.wallet-row div { flex:1; }.wallet-row p, .reward-strip p { margin:0 0 2px; color:#896d58; font-size:11px; }.round-icon, .reward-mark { width:35px; height:35px; border-radius:10px; background:#ffe7de; display:grid; place-items:center; color:#b6462e; }.section-title { margin:22px 2px 8px; }.section-title h2 { margin:0; font-size:18px; color:#201711; }.section-title ion-button { margin:0; font-size:11px; }.reward-strip { background:#fff; border-radius:16px; padding:10px; gap:10px; justify-content:flex-start; color:#201711; }.reward-strip div:nth-child(2) { flex:1; }.reward-strip strong { font-size:13px; }.reward-strip ion-button { --border-radius:10px; margin:0; font-size:11px; }.show-qr { margin:22px 0 10px; --border-radius:14px; height:48px; }.bottom-nav { display:flex; justify-content:space-around; padding:7px 4px 4px; }.bottom-nav a { color:#896d58; text-decoration:none; font-size:10px; text-align:center; min-width:55px; }.bottom-nav ion-icon { display:block; margin:auto auto 3px; font-size:19px; }.bottom-nav .active { color:#b6462e; font-weight:800; }
+.dashboard-shell { max-width: 480px; margin: 0 auto; }
+.wordmark { font-size: 18px; font-weight: 900; letter-spacing: -.5px; }
+.greeting { margin: 6px 2px 16px; }
+.greeting p, .points-card p, .stamp-card p { margin: 0; font-size: 10px; letter-spacing: 1px; font-weight: 800; color: #896d58; }
+.greeting h1 { margin: 4px 0; font-size: 30px; letter-spacing: -1px; color: #201711; }
+.greeting span, .card-heading > span { font-size: 12px; color: #896d58; }
+.stamp-card { background: #fff; border-radius: 22px; padding: 18px; }
+.card-heading, .section-title, .points-card, .wallet-row, .reward-strip { display: flex; align-items: center; justify-content: space-between; }
+.card-heading h2 { margin: 3px 0 0; font-size: 25px; color: #201711; }
+.stamp-dots { display: grid; grid-template-columns: repeat(5, 1fr); gap: 9px; margin: 16px 0; }
+.stamp-dots div { aspect-ratio: 1; border: 1.5px dashed #d6ad98; color: #d6ad98; border-radius: 50%; display: grid; place-items: center; }
+.stamp-dots .earned { background: #dd5d3b; border-color: #dd5d3b; color: white; }
+.stamp-card strong { font-size: 12px; color: #201711; }
+.points-card { margin: 12px 0; background: #fff; padding: 14px 18px; border-radius: 20px; justify-content: flex-start; gap: 15px; }
+.points-card h2 { margin: 4px 0; font-size: 24px; color: #201711; }
+.points-card span { display: block; color: #896d58; font-size: 11px; }
+.points-card ion-button { --padding-start: 0; --padding-end: 0; margin: 4px 0 0; height: 20px; font-size: 11px; }
+.ring { width: 58px; height: 58px; border: 6px solid #f4d1c5; border-top-color: #3f65df; border-left-color: #3f65df; border-radius: 50%; display: grid; place-items: center; font-size: 11px; color: #3f65df; }
+.wallet-row { background: #fff; border-radius: 16px; padding: 12px 14px; gap: 10px; color: #201711; }
+.wallet-row div, .reward-strip div:nth-child(2) { flex: 1; }
+.wallet-row p, .reward-strip p { margin: 0 0 2px; color: #896d58; font-size: 11px; }
+.round-icon, .reward-mark { width: 35px; height: 35px; border-radius: 10px; background: #ffe7de; display: grid; place-items: center; color: #b6462e; }
+.section-title { margin: 22px 2px 8px; }
+.section-title h2 { margin: 0; font-size: 18px; color: #201711; }
+.section-title ion-button { margin: 0; font-size: 11px; }
+.reward-strip { background: #fff; border-radius: 16px; padding: 10px; gap: 10px; justify-content: flex-start; color: #201711; }
+.reward-strip strong { font-size: 13px; }
+.reward-strip ion-button { --border-radius: 10px; margin: 0; font-size: 11px; }
+.show-qr { margin: 22px 0 10px; --border-radius: 14px; height: 48px; }
+.highlights { display: grid; gap: 12px; margin-top: 18px; }
+.highlights article { padding: 16px; border-radius: 20px; background: linear-gradient(145deg, #1d5f48, #123d31); color: #fff; }
+.highlight-copy p { margin: 0 0 5px; color: #baff43; font-size: 9px; font-weight: 900; letter-spacing: 1px; }
+.highlight-copy h2 { margin: 0 0 6px; color: #fff; font-size: 18px; }
+.highlight-copy span { display: block; color: #d5e2dd; font-size: 12px; }
+.highlight-copy a { color: #baff43; font-size: 11px; font-weight: 800; }
+.bottom-nav { display: flex; justify-content: space-around; padding: 7px 4px 4px; }
+.bottom-nav a { color: #896d58; text-decoration: none; font-size: 10px; text-align: center; min-width: 55px; }
+.bottom-nav ion-icon { display: block; margin: auto auto 3px; font-size: 19px; }
+.bottom-nav .active { color: #b6462e; font-weight: 800; }
