@@ -1,0 +1,98 @@
+apply plugin: 'com.android.application'
+
+android {
+    namespace = "com.eduvo.rewards"
+    compileSdk = rootProject.ext.compileSdkVersion
+    defaultConfig {
+        applicationId "com.eduvo.rewards"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        aaptOptions {
+             // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
+             // Default: https://android.googlesource.com/platform/frameworks/base/+/282e181b58cf72b6ca770dc7ca5f91f135444502/tools/aapt/AaptAssets.cpp#61
+            ignoreAssetsPattern = '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+repositories {
+    flatDir{
+        dirs '../capacitor-cordova-android-plugins/src/main/libs', 'libs'
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
+    implementation "androidx.coordinatorlayout:coordinatorlayout:$androidxCoordinatorLayoutVersion"
+    implementation "androidx.core:core-splashscreen:$coreSplashScreenVersion"
+    implementation project(':capacitor-android')
+    testImplementation "junit:junit:$junitVersion"
+    androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
+    implementation project(':capacitor-cordova-android-plugins')
+}
+
+apply from: 'capacitor.build.gradle'
+
+// The native app calls http://localhost:3000 during USB development. On Android,
+// localhost is the phone, so recreate the volatile ADB bridge before every debug build.
+tasks.register('reverseLocalBackendPort') {
+    group = 'development'
+    description = 'Forwards each connected Android device TCP 3000 to the computer backend.'
+
+    doLast {
+        def adb = android.adbExecutable.absolutePath
+        def devicesOutput = new ByteArrayOutputStream()
+        def devicesResult = exec {
+            commandLine adb, 'devices'
+            standardOutput = devicesOutput
+            errorOutput = new ByteArrayOutputStream()
+            ignoreExitValue = true
+        }
+        if (devicesResult.exitValue != 0) {
+            logger.lifecycle('ADB is unavailable; skipping localhost:3000 forwarding.')
+            return
+        }
+
+        def deviceIds = devicesOutput.toString('UTF-8').readLines()
+            .findAll { it.endsWith('\tdevice') }
+            .collect { it.split('\t')[0].trim() }
+
+        if (deviceIds.isEmpty()) {
+            logger.lifecycle('No connected Android device; skipping localhost:3000 forwarding.')
+            return
+        }
+
+        deviceIds.each { deviceId ->
+            exec {
+                commandLine adb, '-s', deviceId, 'reverse', 'tcp:3000', 'tcp:3000'
+            }
+            logger.lifecycle("Forwarded ${deviceId} tcp:3000 to the local loyalty backend.")
+        }
+    }
+}
+
+afterEvaluate {
+    tasks.named('preDebugBuild').configure {
+        dependsOn tasks.named('reverseLocalBackendPort')
+    }
+}
+
+try {
+    def servicesJSON = file('google-services.json')
+    if (servicesJSON.text) {
+        apply plugin: 'com.google.gms.google-services'
+    }
+} catch(Exception e) {
+    logger.info("google-services.json not found, google-services plugin not applied. Push Notifications won't work")
+}

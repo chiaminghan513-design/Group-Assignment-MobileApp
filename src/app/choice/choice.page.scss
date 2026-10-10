@@ -60,3 +60,9 @@
     font-weight: 600;
   }
 }
+.choice-content { --background:#f5f5f7; }
+.brand-container .brand-title { color:#242438; letter-spacing:-1px; font-size:36px; }
+.brand-container .brand-subtitle { color:#6e7183; line-height:1.6; }
+.illustration-container .placeholder-box { background:#29293f; border-color:#3d3b58; box-shadow:0 12px 30px #29293f18; border-radius:24px; }
+.illustration-container .placeholder-box ion-icon { color:#bcb8ff; }
+.button-container ion-button { min-height:48px; --border-radius:14px; }

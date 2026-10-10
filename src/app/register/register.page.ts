@@ -52,7 +52,7 @@ export class RegisterPage {
         },
         error: (err) => {
           console.error('Invalid referral code', err);
-          // You can show a toast or alert for invalid referral here if needed
+          this.showError({ error: { message: 'That referral code could not be verified. Check it or leave the field blank.' } });
         }
       });
     } else {
@@ -62,9 +62,18 @@ export class RegisterPage {
   }
 
   triggerRegisterOtp() {
-    this.authService.registerOtp(this.phoneNumber).subscribe({
+    this.authService.registerOtp(this.phoneNumber.trim()).subscribe({
       next: async (res: any) => {
         console.log('Signup OTP requested:', res);
+
+        this.authService.setPendingRegistration({
+          phoneNumber: this.phoneNumber.trim(),
+          referralCode: this.referralCode.trim(),
+          name: this.name.trim(),
+          email: this.email.trim(),
+          password: this.password,
+          birthday: this.birthday
+        });
 
         const toast = await this.toastController.create({
           message: res?.OTP ? `Verification code: ${res.OTP}` : 'A verification code has been sent to your phone number.',
@@ -74,15 +83,10 @@ export class RegisterPage {
         });
         await toast.present();
 
-        // Navigate to verify page, passing phone, referral, and mode='signup'
+        // Keep private registration data in memory instead of exposing it in the URL.
         this.router.navigate(['/verify-code'], { 
           queryParams: { 
-            phone: this.phoneNumber, 
-            referral: this.referralCode, 
-            name: this.name,
-            email: this.email,
-            password: this.password,
-            birthday: this.birthday,
+            phone: this.phoneNumber.trim(),
             mode: 'signup',
             otpHint: res?.OTP || ''
           } 

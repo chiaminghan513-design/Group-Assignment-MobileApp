@@ -1,1 +1,12 @@
 ion-note { color:var(--ion-color-primary); font-weight:600; font-size:12px; } ion-label p:last-child { font-size:11px; }
+ion-segment { margin:16px; width:calc(100% - 32px); padding:4px; }
+.activity-list { margin:0 16px 24px; }
+.activity-list ion-item { --padding-start:16px; --inner-padding-end:16px; --padding-top:8px; --padding-bottom:8px; }
+.activity-list ion-icon[slot=start] { padding:10px; border-radius:12px; background:#eeedff; font-size:20px; margin-right:12px; align-self:flex-start; margin-top:16px; }
+.activity-list ion-label { white-space:normal; }
+.activity-list h2 { font-size:15px; font-weight:650; line-height:1.4; }
+.activity-list ion-note { align-self:flex-start; margin-top:20px; font-size:12px; color:#5555bf; white-space:nowrap; }
+.activity-date { margin-top:6px; color:#6e7183; font-size:11px; }
+.activity-list details { margin-top:8px; font-size:11px; }
+.activity-list summary { color:#5b5bd6; min-height:28px; padding:5px 0; cursor:pointer; }
+.activity-list details p { color:#6e7183; font-size:11px; overflow-wrap:anywhere; white-space:normal; }

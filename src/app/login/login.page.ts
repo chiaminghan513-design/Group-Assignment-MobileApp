@@ -56,8 +56,16 @@ export class LoginPage {
   }
 
   onEmailLogin() {
-    if (!this.email.trim() || !this.password) { return; }
-    this.authService.loginWithEmail(this.email, this.password).subscribe({
+    const email = this.email.trim();
+    if (!this.isValidEmail(email)) {
+      this.showError({ error: { message: 'Enter a valid email address.' } });
+      return;
+    }
+    if (!this.password) {
+      this.showError({ error: { message: 'Enter your password.' } });
+      return;
+    }
+    this.authService.loginWithEmail(email, this.password).subscribe({
       next: (res: any) => {
         const member = Array.isArray(res?.member) ? res.member[0] : (res?.member || res);
         const phoneNumber = member?.PhoneNumber || member?.phoneNumber || '';
@@ -85,4 +93,5 @@ export class LoginPage {
   }
 
   private isValidPhone(value: string) { return /^\+?\d{8,15}$/.test(value.trim()); }
+  private isValidEmail(value: string) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value); }
 }

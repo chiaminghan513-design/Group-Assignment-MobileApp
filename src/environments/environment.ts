@@ -4,7 +4,10 @@
 
 export const environment = {
   production: false,
-  apiBaseUrl: 'http://localhost:3000'
+  apiBaseUrl: 'http://localhost:3000',
+  // USB-connected Android testing uses `adb reverse tcp:3000 tcp:3000`.
+  nativeApiBaseUrl: 'http://localhost:3000',
+  appVersion: '1.0.0'
 };
 
 /*

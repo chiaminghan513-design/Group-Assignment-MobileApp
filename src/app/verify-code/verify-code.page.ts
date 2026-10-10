@@ -37,7 +37,16 @@ export class VerifyCodePage implements OnInit {
       this.firstLogin = params['firstLogin'] || 'True';
       this.accountStatus = params['accountStatus'] || '';
       this.otpHint = params['otpHint'] || '';
-      this.signup = { name: params['name'] || '', email: params['email'] || '', password: params['password'] || '', birthday: params['birthday'] || '' };
+      if (this.mode === 'signup') {
+        const pending = this.authService.takePendingRegistration();
+        if (!pending || pending.phoneNumber !== this.phoneNumber) {
+          this.showError('Your registration session expired. Please enter your details again.');
+          this.router.navigateByUrl('/register', { replaceUrl: true });
+          return;
+        }
+        this.referralCode = pending.referralCode;
+        this.signup = { name: pending.name, email: pending.email, password: pending.password, birthday: pending.birthday };
+      }
     });
   }
 

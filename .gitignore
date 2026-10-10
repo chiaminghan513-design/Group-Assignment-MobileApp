@@ -31,6 +31,7 @@ log.txt
 
 # Node
 /node_modules
+android/app/google-services.json
 npm-debug.log
 yarn-error.log
 
@@ -56,6 +57,8 @@ yarn-error.log
 # Miscellaneous
 /.angular
 /.angular/cache
+/.gradle-cache
+/.gradle-user-home
 .sass-cache/
 /.nx
 /.nx/cache
@@ -68,3 +71,22 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Local verification, publication copies and private configuration
+.env
+.env.*
+!.env.example
+*.jks
+*.keystore
+/verification-output/
+/sharing/
+/pos-staging/
+/output/
+/.req-qr-render/
+/.requirement-media/
+/aifabric-registry-backup/
+/.script-extract.zip
+/.codex-*.ps1
+/*.png
+/*.jpg
+/*-results.json

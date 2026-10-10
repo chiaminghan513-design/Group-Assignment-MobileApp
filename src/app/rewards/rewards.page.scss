@@ -1,1 +1,9 @@
 .intro { color:var(--ion-color-medium); line-height:1.5; }.reward-links { display:flex; gap:8px; margin:14px 0; }.mint { border-left: 5px solid #3bbf9a; }.lavender { border-left:5px solid #8568d8; }.peach { border-left:5px solid #ea9666; } ion-card-content div { display:flex; justify-content:space-between; align-items:center; margin-top:14px; } ion-card-content strong { color:var(--ion-color-primary); }
+ion-card-title { color: var(--ion-text-color); }
+.reward-links ion-button { min-height:44px; font-size:12px; }
+ion-card { margin:16px 0; }
+.reward-emblem { display:flex; align-items:center; gap:10px; margin-bottom:14px; }
+.reward-emblem ion-icon { padding:10px; border-radius:12px; background:#eeedff; color:#5b5bd6; font-size:23px; }
+ion-card-title { font-size:20px; font-weight:650; line-height:1.35; }
+ion-card-content p { color:#6e7183; font-size:13px; line-height:1.6; }
+ion-card-content strong { font-size:14px; }

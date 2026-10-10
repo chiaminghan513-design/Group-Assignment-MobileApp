@@ -1,11 +1,24 @@
 import { Injectable } from '@angular/core';
-import { Observable, from } from 'rxjs';
+import { Observable, from, forkJoin, of, catchError, map } from 'rxjs';
+import { reconcileMemberHistory } from './member-history';
 import { environment } from '../../environments/environment';
+import { Capacitor } from '@capacitor/core';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private apiUrl = environment.apiBaseUrl;
+  private apiUrl = Capacitor.isNativePlatform() ? environment.nativeApiBaseUrl : environment.apiBaseUrl;
   private readonly deviceId = this.getDeviceId();
+  private pendingRegistration: { name: string; email: string; password: string; birthday: string; referralCode: string; phoneNumber: string } | null = null;
+
+  setPendingRegistration(value: { name: string; email: string; password: string; birthday: string; referralCode: string; phoneNumber: string }) {
+    this.pendingRegistration = { ...value };
+  }
+
+  takePendingRegistration() {
+    const value = this.pendingRegistration;
+    this.pendingRegistration = null;
+    return value;
+  }
 
   checkReferralCode(referralCode: string): Observable<any> {
     return this.post('/member/referral/check', { referralCode });
@@ -42,6 +55,10 @@ export class AuthService {
     return this.post('/auth/keep-login', { phoneNumber, deviceId: this.deviceId });
   }
 
+  updatePushDeviceId(deviceId: string, phoneNumber = localStorage.getItem('member_phone') || ''): Observable<any> {
+    return this.post(`/members/${encodeURIComponent(phoneNumber)}/device`, { deviceId });
+  }
+
   requestPasswordReset(phoneNumber: string): Observable<any> {
     return this.post('/auth/password-reset/request', { phoneNumber, deviceId: this.deviceId });
   }
@@ -73,11 +90,23 @@ export class AuthService {
   }
 
   getHistory(type: string, phoneNumber = localStorage.getItem('member_phone') || ''): Observable<any> {
-    return this.get(`/members/${encodeURIComponent(phoneNumber)}/history/${encodeURIComponent(type)}`);
+    const path = `/members/${encodeURIComponent(phoneNumber)}/history/`;
+    const history = this.get(path + encodeURIComponent(type));
+    if (!['all', 'payments', 'points'].includes(type)) return history;
+    return forkJoin({ history, spends: this.get(path + 'spends').pipe(catchError(() => of([]))) })
+      .pipe(map(result => reconcileMemberHistory(result.history, result.spends, type)));
+  }
+
+  getTopUpDetails(topupId: string, phoneNumber = localStorage.getItem('member_phone') || ''): Observable<any> {
+    return this.get(`/members/${encodeURIComponent(phoneNumber)}/topups/${encodeURIComponent(topupId)}`);
   }
 
   getNotification(notificationId: string, phoneNumber = localStorage.getItem('member_phone') || ''): Observable<any> {
     return this.get(`/members/${encodeURIComponent(phoneNumber)}/notifications/${encodeURIComponent(notificationId)}`);
+  }
+
+  getNotifications(phoneNumber = localStorage.getItem('member_phone') || ''): Observable<any> {
+    return this.get(`/members/${encodeURIComponent(phoneNumber)}/notifications`);
   }
 
   markNotificationRead(notificationId: string, phoneNumber = localStorage.getItem('member_phone') || ''): Observable<any> {
@@ -110,22 +139,44 @@ export class AuthService {
     return this.post(`/members/${encodeURIComponent(phoneNumber)}/feedback`, { description });
   }
 
+  addAddress(address: { address: string; latitude: number; longitude: number; receiverPhone: string; receiverName: string }, phoneNumber = localStorage.getItem('member_phone') || ''): Observable<any> {
+    return this.post(`/members/${encodeURIComponent(phoneNumber)}/addresses`, address);
+  }
+
+  updateAddress(addressId: string, address: { address: string; latitude: number; longitude: number; receiverPhone: string; receiverName: string; isDefault: boolean }, phoneNumber = localStorage.getItem('member_phone') || ''): Observable<any> {
+    return this.post(`/members/${encodeURIComponent(phoneNumber)}/addresses/${encodeURIComponent(addressId)}`, address);
+  }
+
+  deleteAddress(addressId: string, phoneNumber = localStorage.getItem('member_phone') || ''): Observable<any> {
+    return this.request(`/members/${encodeURIComponent(phoneNumber)}/addresses/${encodeURIComponent(addressId)}`, {
+      method: 'DELETE', headers: this.authorizationHeaders()
+    });
+  }
+
   private post<T>(path: string, body: unknown): Observable<T> {
     const token = localStorage.getItem('auth_token') || '';
     return this.request<T>(path, { method: 'POST', headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) }, body: JSON.stringify(body) });
   }
 
   private get<T>(path: string): Observable<T> {
+    return this.request<T>(path, { headers: this.authorizationHeaders() });
+  }
+
+  private authorizationHeaders(): Record<string, string> {
     const token = localStorage.getItem('auth_token') || '';
-    return this.request<T>(path, { headers: token ? { Authorization: `Bearer ${token}` } : {} });
+    return token ? { Authorization: `Bearer ${token}` } : {};
   }
 
   private request<T>(path: string, options: RequestInit = {}): Observable<T> {
-    return from(fetch(`${this.apiUrl}${path}`, options).then(async response => {
-      const payload = response.status === 204 ? null : await response.json().catch(() => null);
-      if (!response.ok) throw { status: response.status, statusText: response.statusText, error: payload };
-      return payload as T;
-    }));
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 20_000);
+    return from(fetch(`${this.apiUrl}${path}`, { ...options, signal: options.signal || controller.signal })
+      .then(async response => {
+        const payload = response.status === 204 ? null : await response.json().catch(() => null);
+        if (!response.ok) throw { status: response.status, statusText: response.statusText, error: payload };
+        return payload as T;
+      })
+      .finally(() => clearTimeout(timeout)));
   }
 
   private getDeviceId(): string {

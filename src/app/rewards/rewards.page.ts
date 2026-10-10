@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
 import { LoyaltyDataService, Reward } from '../services/loyalty-data.service';
 import { Router } from '@angular/router';
 
@@ -16,11 +15,12 @@ export class RewardsPage implements OnInit {
     return this.loyalty.rewards.filter(item => this.selectedFilter === 'vouchers' ? item.voucher : !item.voucher);
   }
 
-  constructor(public loyalty: LoyaltyDataService, private alertController: AlertController, private router: Router) { }
+  constructor(public loyalty: LoyaltyDataService, private router: Router) { }
 
-  async redeem(reward: Reward) {
-    const alert = await this.alertController.create({ header: 'Show reward code?', message: `Show ${reward.name} at the counter. The POS confirms whether points are deducted.`, buttons: ['Cancel', { text: 'Show QR', handler: () => this.router.navigate(['/reward-details'], { queryParams: { id: reward.id, kind: reward.voucher ? 'voucher' : 'reward' } }) }] });
-    await alert.present();
+  viewOffer(reward: Reward) {
+    this.router.navigate(['/reward-details'], {
+      queryParams: { id: reward.id, kind: reward.voucher ? 'voucher' : 'reward', preview: 'true' }
+    });
   }
 
   ngOnInit() {

@@ -1,1 +1,4 @@
 .wallet-balance { background:#1f2a44; color:#fff; border-radius:20px; padding:24px; }.wallet-balance p { margin:0; opacity:.75; }.wallet-balance h1 { font-size:36px; margin:10px 0; }.wallet-balance span { font-size:12px; opacity:.75; }.point-total { font-size:26px; color:var(--ion-color-primary); } h2 { font-size:18px; margin:24px 4px 10px; } ion-note { color:var(--ion-color-primary); font-weight:600; font-size:12px; }
+.wallet-balance { background:#29293f!important; color:#fff!important; padding:28px; border-radius:24px; box-shadow:0 12px 30px #29293f18; }
+.wallet-balance p,.wallet-balance span { color:#cbc9df; opacity:1; }
+.wallet-balance h1 { color:#fff; font-size:38px; letter-spacing:-1px; font-weight:650; font-variant-numeric:tabular-nums; }

@@ -1,3 +1,5 @@
+@use "sass:meta";
+
 /*
  * App Global CSS
  * ----------------------------------------------------------------------------
@@ -108,3 +110,6 @@ ion-note, ion-card-subtitle, .intro { color: #aab3a8 !important; }
 .polished-empty h2 { margin: 15px 0 7px; }
 .polished-empty p { color: #aab3a8; line-height: 1.5; }
 .polished-empty ion-button { margin-top: 8px; --border-radius: 12px; }
+
+@include meta.load-css("./theme/portal-polish");
+ion-app app-dashboard.ion-page { @include meta.load-css('./theme/member-card'); }
